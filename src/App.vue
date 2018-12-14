@@ -2,11 +2,12 @@
   <div id="app">
     <!-- <img src="./assets/logo.png"> -->
     <!-- <HelloWorld/> -->
+    <button @click="resetCheck" class="reset">重置</button>
     <ul class="content">
       <li
         v-for="(item,index) in list"
-        :isCheck="item.isCheck"
-        :class="{active:item.isCheck}"
+        :isCheck="checkArr[index]"
+        :class="{active:checkArr[index]}"
         @click="tabClick($event,index)"
       >{{item.name}}</li>
     </ul>
@@ -19,20 +20,28 @@ import HelloWorld from "./components/HelloWorld";
 export default {
   data() {
     return {
-      list: [
-        { name: "test1", isCheck: false },
-        { name: "test2", isCheck: false },
-        { name: "test3", isCheck: false }
-      ]
+      list: [{ name: "test1" }, { name: "test2" }, { name: "test3" }],
+      checkArr: []
     };
   },
   name: "App",
   components: {
     HelloWorld
   },
+  mounted() {
+    // this.init()
+  },
   methods: {
+    init(){
+      this.checkArr = this.list.map(()=>{
+        return false
+      })
+    },
     tabClick(event, index) {
-      this.list[index].isCheck = !this.list[index].isCheck;
+      this.$set(this.checkArr, index, !this.checkArr[index])
+    },
+    resetCheck(){
+      this.init()
     }
   }
 };
@@ -54,7 +63,7 @@ export default {
   border: 1px solid #000;
   cursor: pointer;
 }
-.active{
+.active {
   background: #349ea0;
 }
 </style>
