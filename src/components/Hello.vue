@@ -1,53 +1,69 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
+  <div id="app">
+    <!-- <img src="./assets/logo.png"> -->
+    <!-- <HelloWorld/> -->
+    <button @click="resetCheck" class="reset">重置</button>
+    <ul class="content">
+      <li
+        v-for="(item,index) in list"
+        :isCheck="checkArr[index]"
+        :class="{active:checkArr[index]}"
+        @click="tabClick($event,index)"
+      >{{item.name}}</li>
     </ul>
   </div>
 </template>
 
 <script>
+import HelloWorld from "./components/HelloWorld";
+
 export default {
-  name: 'hello',
-  data () {
+  data() {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      list: [{ name: "test1" }, { name: "test2" }, { name: "test3" }],
+      checkArr: []
+    };
+  },
+  name: "App",
+  components: {
+    HelloWorld
+  },
+  mounted() {
+    // this.init()
+  },
+  methods: {
+    init(){
+      this.checkArr = this.list.map(()=>{
+        return false
+      })
+    },
+    tabClick(event, index) {
+      this.$set(this.checkArr, index, !this.checkArr[index])
+    },
+    resetCheck(){
+      this.init()
     }
   }
-}
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
+<style>
+#app {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }
-
-ul {
-  list-style-type: none;
-  padding: 0;
+.content li {
+  float: left;
+  list-style: none;
+  padding: 10px 20px;
+  border: 1px solid #000;
+  cursor: pointer;
 }
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
+.active {
+  background: #349ea0;
 }
 </style>
